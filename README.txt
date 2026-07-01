@@ -1,17 +1,34 @@
-Paula Portfolio CMS Prototype
+PAULA FREIRE — PORTFOLIO V2 COMPLETE
 
-PUBLIC:
-- index.html = web final para recruiters / visitantes.
-- case.html?id=desiderata = case público.
+Archivos principales:
+- index.html: Home completa y cerrada.
+- desafiate-desafianos.html
+- sin-filtrar.html
+- cultural-identity-bu-andina.html
+- desiderata.html
+- ucollective.html
+- presente.html
 
-PRIVATE:
-- admin.html = panel privado demo.
-- Password demo: Pau2026
+Carpetas:
+- assets/: imagenes y videos usados por los cases.
+- style.css: estilos globales responsive.
+- data.js: contenido estructurado de la web.
+- admin.html: editor demo/local. Para la presentacion, usar la web publica.
 
-Cómo funciona:
-- Guardar borrador: solo queda en el editor/localStorage.
-- Publicar: actualiza lo que ve la web pública en este navegador.
-- Export/Import: permite guardar un backup JSON del contenido.
+Para publicar en GitHub/Vercel:
+1. Descomprimir este ZIP.
+2. Subir todos los archivos y la carpeta assets al repo.
+3. Commit changes.
+4. Vercel actualiza automaticamente el link.
 
-Importante:
-Este ZIP es un prototipo local editable. Para que solo Paula pueda editar online y el resto vea una URL pública real, el próximo paso es subirlo a hosting con autenticación/CMS (por ejemplo Netlify/Vercel + Decap/Sanity/Netlify Identity o Webflow/Framer).
+Para cambiar rapido una imagen:
+- Reemplazar el archivo dentro de assets/ manteniendo el mismo nombre.
+
+Para cambiar textos/proyectos:
+- Editar data.js.
+
+Nota:
+La version publica usa el contenido fijo de data.js para evitar que borradores locales oculten imagenes o videos.
+
+
+LINKS: En el admin podés pegar linkedin.com/in/... o https://...; la Home normaliza automáticamente a https://. Para que los cambios se vean para todos en Vercel, editá data.js y hacé commit, o migrá luego a CMS real.
