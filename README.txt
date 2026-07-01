@@ -32,3 +32,9 @@ La version publica usa el contenido fijo de data.js para evitar que borradores l
 
 
 LINKS: En el admin podés pegar linkedin.com/in/... o https://...; la Home normaliza automáticamente a https://. Para que los cambios se vean para todos en Vercel, editá data.js y hacé commit, o migrá luego a CMS real.
+
+
+V3 notes:
+- Public pages now read directly from data.js, avoiding old browser editor cache.
+- Mobile responsive fixes added for home, case pages, galleries and videos.
+- To update links, edit the links object in data.js, commit to GitHub, and Vercel will redeploy.
