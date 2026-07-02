@@ -1,6 +1,38 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Case Study — Paula Freire</title><link rel="stylesheet" href="style.css"><script src="data.js"></script></head><body><nav class="topbar"><div class="roles"><span>Case Study</span><span class="slash">/</span><span>Paula Freire</span></div><a class="brand-mini" href="index.html">Paula Freire</a><div class="links"><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div></nav><div id="app"></div><div class="lightbox" id="lightbox"><button>Close</button><img alt="Expanded project image"></div><script>
-const data=DEFAULT_PORTFOLIO; const params=new URLSearchParams(location.search); const project=data.projects.find(p=>p.id===params.get('id'))||data.projects[0]; const r=document.documentElement; Object.entries(data.theme).forEach(([k,v])=>{ if(k==='fontDisplay') r.style.setProperty('--display', `'${v}', Arial Black, sans-serif`); else if(k==='fontBody') r.style.setProperty('--body', `'${v}', system-ui, sans-serif`); else r.style.setProperty('--'+k,v); });
-function esc(s=''){return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))} function tile(src,i){if(!src)return `<figure class="tile empty">Add image from admin</figure>`; const cls=i%5===0?'large':i%5===1?'tall':i%5===2?'half':'third'; if(/\.mp4($|\?)/i.test(src)) return `<figure class="tile ${cls}"><video src="${esc(src)}" muted loop autoplay playsinline controls></video></figure>`; return `<figure class="tile ${cls}"><img data-lightbox src="${esc(src)}" alt="${esc(project.title)} asset"></figure>`}
-document.title=`${project.title} — Paula Freire`; document.getElementById('app').innerHTML=`<header class="case-hero"><div class="case-top"><span>${esc(project.category)}</span><span>${esc(project.client)}</span></div><h1 class="case-title">${esc(project.title).replace('DesafiaTE DesafiaNOS','DesafiaTE<br>DesafiaNOS').replace(' — ','<br>')}</h1><div class="case-bottom"><p>${esc(project.headline)}</p><div class="meta-grid"><div class="meta"><span>Role</span><b>${esc(project.role)}</b></div><div class="meta"><span>Challenge</span><b>${esc(project.challenge).slice(0,86)}…</b></div><div class="meta"><span>Response</span><b>${esc(project.response).slice(0,86)}…</b></div><div class="meta"><span>Outcome</span><b>${esc(project.outcome).slice(0,86)}…</b></div></div></div></header><main>${project.sections.map((s,idx)=>`<section class="universe ${idx%2?'dark-section':''}"><div class="universe-head"><div><p class="eyebrow">${String(idx+1).padStart(2,'0')}</p><h2 class="case-heading">${esc(s.title)}</h2></div><p class="universe-copy">${esc(s.copy)}</p></div><div class="image-grid">${(s.images&&s.images.length?s.images:['']).map(tile).join('')}</div></section>`).join('')}</main><section class="statement-block"><p>Designing for<br>every touchpoint<span>not just one piece.</span></p></section><section class="next"><a class="case-link" href="index.html">← Back to home</a><a class="case-link" href="${data.projects[(data.projects.findIndex(p=>p.id===project.id)+1)%data.projects.length].id}.html">Next case →</a></section>`;
-const lb=document.getElementById('lightbox'),lbImg=lb.querySelector('img');document.querySelectorAll('[data-lightbox]').forEach(img=>img.addEventListener('click',()=>{lbImg.src=img.src;lb.classList.add('open')}));lb.addEventListener('click',e=>{if(e.target===lb||e.target.tagName==='BUTTON')lb.classList.remove('open')});
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Case Study — Paula Freire</title><link rel="stylesheet" href="style.css"><script src="data.js"></script></head><body class="case-page"><nav class="topbar"><div class="roles"><span>Case Study</span><span class="slash">/</span><span>Paula Freire</span></div><a class="brand-mini" href="index.html">Home</a><div class="links"><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div></nav><div id="app"></div><div class="lightbox" id="lightbox"><button>Close</button><img alt="Expanded project image"></div><script>
+const data=DEFAULT_PORTFOLIO;
+const params=new URLSearchParams(location.search);
+const project=data.projects.find(p=>p.id===params.get('id'))||data.projects[0];
+const r=document.documentElement;
+Object.entries(data.theme).forEach(([k,v])=>{
+  if(k==='fontDisplay') r.style.setProperty('--display', `'${v}', Arial Black, sans-serif`);
+  else if(k==='fontBody') r.style.setProperty('--body', `'${v}', system-ui, sans-serif`);
+  else r.style.setProperty('--'+k,v);
+});
+function esc(s=''){
+  return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+}
+function sectionLayout(s,idx){
+  if(s.layout) return s.layout;
+  if(project.id==='desafiate-desafianos' && idx===0) return 'vertical';
+  if(project.id==='desafiate-desafianos' && idx===1) return 'horizontal';
+  return 'default';
+}
+function tile(src,i,layout='default'){
+  if(!src) return `<figure class="tile empty">Add image from admin</figure>`;
+  let cls;
+  if(layout==='vertical') cls='vertical';
+  else if(layout==='horizontal') cls='horizontal';
+  else if(layout==='full-video') cls='full-video';
+  else cls=i%5===0?'large':i%5===1?'tall':i%5===2?'half':'third';
+
+  if(/\.mp4($|\?)/i.test(src)){
+    return `<figure class="tile ${cls}"><video src="${esc(src)}" muted loop autoplay playsinline controls></video></figure>`;
+  }
+  return `<figure class="tile ${cls}"><img data-lightbox src="${esc(src)}" alt="${esc(project.title)} asset"></figure>`;
+}
+document.title=`${project.title} — Paula Freire`;
+document.getElementById('app').innerHTML=`<header class="case-hero"><div class="case-top"><span>${esc(project.category)}</span><span>${esc(project.client)}</span></div><h1 class="case-title">${esc(project.title).replace('DesafiaTE DesafiaNOS','DesafiaTE<br>DesafiaNOS').replace(' — ','<br>')}</h1><div class="case-bottom"><p>${esc(project.headline)}</p></div></header><main>${project.sections.map((s,idx)=>{const layout=sectionLayout(s,idx);return `<section class="universe layout-${layout} ${idx%2?'dark-section':''}"><div class="universe-head"><div><p class="eyebrow">${String(idx+1).padStart(2,'0')}</p><h2 class="case-heading">${esc(s.title)}</h2></div></div><div class="image-grid">${(s.images&&s.images.length?s.images:['']).map((src,i)=>tile(src,i,layout)).join('')}</div></section>`}).join('')}</main><section class="statement-block"><p>Designing for<br>every touchpoint<span>not just one piece.</span></p></section><section class="next"><a class="case-link" href="index.html">← Back to home</a><a class="case-link" href="${data.projects[(data.projects.findIndex(p=>p.id===project.id)+1)%data.projects.length].id}.html">Next case →</a></section>`;
+const lb=document.getElementById('lightbox'),lbImg=lb.querySelector('img');
+document.querySelectorAll('[data-lightbox]').forEach(img=>img.addEventListener('click',()=>{lbImg.src=img.src;lb.classList.add('open')}));
+lb.addEventListener('click',e=>{if(e.target===lb||e.target.tagName==='BUTTON')lb.classList.remove('open')});
 </script></body></html>
